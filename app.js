@@ -23,7 +23,7 @@ app.use(express.static("public"));
 
 
 
-let org = `projet station meteo`
+let org = `test`
 let bucket = `test`
 
 
@@ -50,7 +50,10 @@ writeClient.flush()
 let queryClient = client.getQueryApi(org)
 let fluxQuery = `from(bucket: "test")
  |> range(start: -5m)
+ |> last()
+|> filter(fn: (r) => r._measurement == "weather")
 `
+
 queryClient.queryRows(fluxQuery, {
   next: (row, tableMeta) => {
     const tableObject = tableMeta.toObject(row)
