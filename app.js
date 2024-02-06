@@ -10,7 +10,7 @@ const url = 'http://localhost:8086'
 
 
 let org = `test`
-let bucket = `new_test`
+let bucket = `new_test2`
 const client = new InfluxDB({url, token})
 const  writeClient = client.getWriteApi(org, bucket, 'ns')
 
@@ -31,12 +31,11 @@ function writeFileToDB () {
     .floatField('luminosity', data.measure[3].value)
     .floatField('wind_heading', data.measure[4].value)
     .floatField('wind_speed_avg', data.measure[5].value)
-    .floatField('wind_speed_max', data.measure[6].value)
-    .floatField('wind_speed_min', data.measure[7].value)
     .floatField('lat', dataGPS.loc.geojson.coordinates[0])
     .floatField('lon', dataGPS.loc.geojson.coordinates[1])
     .stringField('date_location', dataGPS.datetime.toJSON())
     .stringField('date_lastrain', dataRain)
+    .stringField('date_measure', `${data.date}`)
     .timestamp(new Date(data.date))
 
   writeClient.writePoint(point)
@@ -44,11 +43,10 @@ function writeFileToDB () {
   console.log("success")
 
   let queryClient = client.getQueryApi(org)
-  let fluxQuery = `from(bucket: "new_test")
+  let fluxQuery = `from(bucket: "new_test2")
   |> range(start: -30d)
   |> last()
   |> filter(fn: (r) => r._measurement == "weather")
-  |> filter(fn: (r) => r._field == "date_lastrain")
   `
 
   queryClient.queryRows(fluxQuery, {
