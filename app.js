@@ -2,15 +2,17 @@
 const fs = require("fs");
 const nmea = require('@drivetech/node-nmea')
 const {InfluxDB, Point} = require('@influxdata/influxdb-client')
+require('dotenv').config()
 
 
-const token = process.env.INFLUXDB_TOKEN
+const token = `${process.env.INFLUXDB_TOKEN}`
+console.log(token)
 const url = 'http://localhost:8086'
 
 
 
-let org = `test`
-let bucket = `new_test2`
+let org = `projet_sonde`
+let bucket = `weather_data`
 const client = new InfluxDB({url, token})
 const  writeClient = client.getWriteApi(org, bucket, 'ns')
 
@@ -43,7 +45,7 @@ function writeFileToDB () {
   console.log("success")
 
   let queryClient = client.getQueryApi(org)
-  let fluxQuery = `from(bucket: "new_test2")
+  let fluxQuery = `from(bucket: "weather_data")
   |> range(start: -30d)
   |> last()
   |> filter(fn: (r) => r._measurement == "weather")
