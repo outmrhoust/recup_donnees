@@ -3,15 +3,15 @@ version: '3'
 services:
   influxdb:
     image: influxdb
-    container_name: influxdb
+    container_name: influxdb_container
     ports:
       - "8086:8086"
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
       - DOCKER_INFLUXDB_INIT_PASSWORD=password
-      - DOCKER_INFLUXDB_INIT_ORG=test
-      - DOCKER_INFLUXDB_INIT_BUCKET=new_test
+      - DOCKER_INFLUXDB_INIT_ORG=projet_sonde
+      - DOCKER_INFLUXDB_INIT_BUCKET=weather_data
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=3unza9chViqvjt5lGRA7I7WBEPzleIGKCi9fxUVxk1iXcg6pifsN8RPrcM4qqOE5zHj37ggxmzLj-E96pl-jpA==
     volumes:
       - influxdb_data:/var/lib/influxdb
