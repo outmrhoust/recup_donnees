@@ -20,9 +20,9 @@ const  writeClient = client.getWriteApi(org, bucket, 'ns')
 function writeFileToDB () {
 
 
-  const data = JSON.parse(fs.readFileSync('./data/sensors', 'utf8'))
-  const dataGPS = nmea.parse(fs.readFileSync('./data/gpsNmea', 'utf8').split('\n')[1])
-  const dataRain = fs.readFileSync('./data/rainCounter.log', 'utf8').split('\n')[0]
+  const data = JSON.parse(fs.readFileSync('/dev/shm/sensors', 'utf8'))
+  const dataGPS = nmea.parse(fs.readFileSync('/dev/shm/gpsNmea', 'utf8').split('\n')[1])
+  const dataRain = fs.readFileSync('/dev/shm/rainCounter.log', 'utf8').split('\n')[0]
   console.log(data.date)
 
   const point = new Point('weather')
